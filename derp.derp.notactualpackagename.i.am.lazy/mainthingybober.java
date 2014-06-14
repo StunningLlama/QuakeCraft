@@ -60,7 +60,7 @@ private WorldGuardPlugin getWorldGuard() {
 		recharge = new HashMap<UUID, Integer>();
 		for (Player p : Bukkit.getOnlinePlayers())
 		{
-			this.recharge.put(p.getUniqueId(), 20);
+			this.recharge.put(p.getUniqueId(), 34);
 		}
 		Bukkit.getPluginManager().registerEvents(this, this);
 		new Timer(this).runTaskTimer(this, 1, 1);
@@ -79,7 +79,7 @@ private WorldGuardPlugin getWorldGuard() {
 				)
 		{
 			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.BLAZE_HIT, 1, 1);
-			this.recharge.put(event.getPlayer().getUniqueId(), 20);
+			this.recharge.put(event.getPlayer().getUniqueId(), 34);
 			List<LivingEntity> near = new ArrayList<LivingEntity>();
 			for (Entity e : event.getPlayer().getNearbyEntities(100, 100, 100))
 			{
@@ -117,6 +117,8 @@ private WorldGuardPlugin getWorldGuard() {
 							if (rand.getBlockY() > 0)
 							{
 								e.teleport(rand);
+								if (e instanceof Player)
+									((Player) e).playSound(e.getLocation(), Sound.FALL_BIG, 1, 1);
 								return;
 							}
 						}
