@@ -1,16 +1,20 @@
 package com.gmail.brandonli2010.QuakeCraft;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
+
+/*import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.Plugin;*/
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -34,7 +38,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class QuakeCraft extends JavaPlugin implements Listener {
 	protected HashMap<UUID, Integer> recharge;
-	public StateFlag flag;
+	static HashSet<Byte> transparent;
+/*	public StateFlag flag;
 	 
 private WorldGuardPlugin getWorldGuard() {
     Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
@@ -45,10 +50,13 @@ private WorldGuardPlugin getWorldGuard() {
     }
  
     return (WorldGuardPlugin) plugin;
-}
+}*/
 	public void onEnable()
 	{
-		flag = new StateFlag("Quake", false);
+		Byte[] arr = {0,6,8,9,27,28,31,32,37,38,39,40,50,51,55,59,63,65,66,68,69,70,72,75,76,77,78,83,93,94,104,105,106,111,115,127/*,131,132,141,142,143,147,148,149,150,157,171,175*/};
+		//Material[] arr = {Material.AIR, Material.SAPLING, Material.WATER, Material.STATIONARY_WATER, Material.POWERED_RAIL, Material.DETECTOR_RAIL, Material.LONG_GRASS, Material.DEAD_BUSH, Material.YELLOW_FLOWER, Material.RED_ROSE, Material.BROWN_MUSHROOM, Material.RED_MUSHROOM, Material.TORCH, Material.FIRE, Material.REDSTONE_WIRE, Material.CROPS, Material.SIGN_POST, Material.LADDER, Material.RAILS, Material.WALL_SIGN, Material.SIGN, Material.LEVER, Material.STONE_PLATE, Material.WOOD_PLATE, Material.REDSTONE_TORCH_OFF, Material.REDSTONE_TORCH_ON, Material.STONE_BUTTON, Material.SNOW, Material.SUGAR_CANE_BLOCK, Material.DIODE_BLOCK_OFF, Material.DIODE_BLOCK_ON, Material.PUMPKIN_STEM, Material.MELON_STEM, Material.VINE, Material.WATER_LILY, Material.NETHER_STALK, Material.COCOA, Material.TRIPWIRE_HOOK, Material.TRIPWIRE, Material.CARROT, Material.POTATO, Material.WOOD_BUTTON, Material.GOLD_PLATE, Material.IRON_PLATE, Material.REDSTONE_COMPARATOR_OFF, Material.REDSTONE_COMPARATOR_ON, Material.CARPET, Material.DOUBLE_PLANT};
+		transparent =  new HashSet<Byte>(Arrays.asList(arr));
+		//flag = new StateFlag("Quake", false);
 		recharge = new HashMap<UUID, Integer>();
 		for (Player p : Bukkit.getOnlinePlayers())
 		{
@@ -80,7 +88,8 @@ private WorldGuardPlugin getWorldGuard() {
 					near.add((LivingEntity) e);
 				}
 			}
-			for (Block b : event.getPlayer().getLineOfSight(null, 100))
+			// TODO WILL SOON BE MAGIC VALUES
+			for (Block b : event.getPlayer().getLineOfSight(transparent, 100))
 			{
 				event.getPlayer().getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK).remove();
 				for (LivingEntity e : near)
